@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/Moon">
+        <file alias="Shader/Surface.glsl">./res/Shader/Surface.glsl</file>
+        <file alias="Shader/Stars.glsl">./res/Shader/Stars.glsl</file>
+
+        <file alias="Icons/Pause.svg">./res/Icons/Pause.svg</file>
+        <file alias="Icons/Play.svg">./res/Icons/Play.svg</file>
+        <file alias="Icons/PlayPause.svg">./res/Icons/PlayPause.svg</file>
+        <file alias="Icons/Restart.svg">./res/Icons/Restart.svg</file>
+        <file alias="Icons/Stop.svg">./res/Icons/Stop.svg</file>
+        <file alias="Icons/MoonLanding.ico">./res/Icons/MoonLanding.ico</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,45 @@
+#pragma once
+
+#include <QAction>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QFrame>
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMouseEvent>
+#include <QPushButton>
+#include <QSpacerItem>
+#include <QTextBrowser>
+#include <QTimer>
+#include <QToolBar>
+#include <QToolButton>
+#include <QVBoxLayout>
+#include <QValidator>
+#include <QWidget.h>
+
+#include <QColor>
+#include <QDir>
+#include <QMutex>
+#include <QObject>
+#include <QTimer>
+#include <QVector>
+
+#include <algorithm>
+#include <cassert>
+#include <cfloat>
+#include <cmath>
+#include <cstddef>
+#include <cstdint>
+#include <cstdlib>
+#include <functional>
+#include <initializer_list>
+#include <iterator>
+#include <memory>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <vector>
+
+#include <Log.h>

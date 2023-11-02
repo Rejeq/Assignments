@@ -1,0 +1,4 @@
+# Language server cache
+/.cache
+
+/build
