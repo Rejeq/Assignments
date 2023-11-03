@@ -47,8 +47,8 @@ class WorldController : public QObject {
   void SetAutoUpdateIntervalSec(double sec);
   int GetAutoUpdateInterval() const { return m_timer.interval(); }
 
-  Phys::World& ConsumeWorld();
-  void ReturnWorld();
+  Phys::World& LockWorld();
+  void UnlockWorld();
 
  signals:
   void Updated(Phys::World& world);

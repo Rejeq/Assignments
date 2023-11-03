@@ -47,7 +47,7 @@ void RocketController::SetWorldController(WorldController* controller) {
 void RocketController::ShiftFuellEmission(double delta) {
   LOG_INFO("RocketController: Fuel emission chagned by delta: {}", delta);
 
-  Phys::World& world = m_worldController->ConsumeWorld();
+  Phys::World& world = m_worldController->LockWorld();
   Phys::Rocket& rocket = GetRocketInstance(world);
   Phys::TestRocket& testRocket = GetTestRocketInstance(world);
 
@@ -58,7 +58,7 @@ void RocketController::ShiftFuellEmission(double delta) {
   if (m_currData != nullptr)
     m_currData->Update(world.GetLifetime(), rocket);
 
-  m_worldController->ReturnWorld();
+  m_worldController->UnlockWorld();
 }
 
 void RocketController::OnWorldUpdate(Phys::World& world) {

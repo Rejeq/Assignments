@@ -45,12 +45,12 @@ WorldController::WorldController() {
 }
 
 void WorldController::Update(double dt) {
-  ConsumeWorld();
+  LockWorld();
 
   m_world.Update(dt);
   emit Updated(m_world);
 
-  ReturnWorld();
+  UnlockWorld();
 }
 
 WorldController::~WorldController() {
@@ -62,13 +62,13 @@ void WorldController::Step() {
 }
 
 void WorldController::Reset() {
-  ConsumeWorld();
+  LockWorld();
 
   DisableAutoUpdate();
   m_world.Clear();
   emit Reseted(m_world);
 
-  ReturnWorld();
+  UnlockWorld();
 }
 
 void WorldController::Restart() {
@@ -150,11 +150,11 @@ void WorldController::SetAutoUpdateIntervalSec(double sec) {
   SetAutoUpdateInterval(sec * 1000.0);
 }
 
-Phys::World& WorldController::ConsumeWorld() {
+Phys::World& WorldController::LockWorld() {
   m_mutex.lock();
   return m_world;
 }
 
-void WorldController::ReturnWorld() {
+void WorldController::UnlockWorld() {
   m_mutex.unlock();
 }
