@@ -67,15 +67,17 @@ MainWindow::MainWindow(QWidget* parent)
 
   m_rocketController.SetWorldController(&m_worldController);
 
-  connect(&m_rocketController, &RocketController::Destroyed, this, []() {
-    QMessageBox gameOverMsg;
+  connect(&m_rocketController, &RocketController::Destroyed, this, [=] {
+    QMessageBox gameOverMsg(this);
     gameOverMsg.setText("Ракета разбилась");
+    QApplication::alert(&gameOverMsg);
     gameOverMsg.exec();
   });
 
-  connect(&m_rocketController, &RocketController::Landed, this, []() {
-    QMessageBox gameOverMsg;
+  connect(&m_rocketController, &RocketController::Landed, this, [=] {
+    QMessageBox gameOverMsg(this);
     gameOverMsg.setText("Ракета успешно приземлилась");
+    QApplication::alert(&gameOverMsg);
     gameOverMsg.exec();
   });
 
