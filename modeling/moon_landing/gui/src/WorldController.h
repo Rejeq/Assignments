@@ -1,25 +1,47 @@
 #pragma once
 
-#include <QObject>
-#include <QTimer>
 #include <QMutex>
+#include <QObject>
+#include <QThread>
+#include <QTimer>
 
 #include <Physics/World.h>
+
+class PreciseTimerThread : public QThread {
+  Q_OBJECT
+
+ public:
+  PreciseTimerThread(QObject* parent = nullptr);
+  ~PreciseTimerThread();
+
+  void SetInterval(int msec);
+
+ signals:
+  void timeout();
+
+ protected:
+  void run() override;
+
+ private:
+  QTimer m_timer;
+};
 
 class WorldController : public QObject {
   Q_OBJECT
 
  public:
   WorldController();
+  ~WorldController();
 
   void Update(double dt);
   void Step();
   void Reset();
   void Restart();
 
+  void SetAutoUpdate(bool enable);
   void ToggleAutoUpdate();
-  void EnableAutoUpdate();
-  void DisableAutoUpdate();
+  void EnableAutoUpdate() { SetAutoUpdate(true); }
+  void DisableAutoUpdate() { SetAutoUpdate(false); }
 
   void SetAutoUpdateInterval(int msec);
   void SetAutoUpdateIntervalSec(double sec);
@@ -35,9 +57,16 @@ class WorldController : public QObject {
   void IntervalChanged(int msec);
 
  private:
-  bool IsAutoUpdateActive() const { return m_timer.isActive(); }
+  bool IsAutoUpdateActive() const {
+    return m_timer.isActive() || m_preciseTimer->isRunning();
+  }
+
+  void SetDefaultTimer(bool enable);
+  void SetPreciseTimer(bool enable);
 
   Phys::World m_world;
   QTimer m_timer;
+  PreciseTimerThread* m_preciseTimer;
   QMutex m_mutex;
+  int m_speed = 1;
 };
