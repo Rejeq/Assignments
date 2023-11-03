@@ -50,4 +50,5 @@ class RocketController : public QObject {
   SetupView* m_setup = nullptr;
 
   WorldController* m_worldController = nullptr;
+  bool m_landed = false;
 };

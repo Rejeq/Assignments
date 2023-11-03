@@ -47,8 +47,10 @@ WorldController::WorldController() {
 void WorldController::Update(double dt) {
   LockWorld();
 
-  m_world.Update(dt);
-  emit Updated(m_world);
+  for (int i = 0; i < m_speed; i++) {
+    m_world.Update(dt);
+    emit Updated(m_world);
+  }
 
   UnlockWorld();
 }
@@ -148,6 +150,20 @@ void WorldController::SetAutoUpdateInterval(int msec) {
 
 void WorldController::SetAutoUpdateIntervalSec(double sec) {
   SetAutoUpdateInterval(sec * 1000.0);
+}
+
+void WorldController::SetSpeed(int speed) {
+  if (speed <= 0) {
+    LOG_ERROR("WorldController: Unable to set speed: Speed cannot be <= 0");
+    return;
+  }
+
+  LockWorld();
+
+  m_speed = speed;
+  emit SpeedChanged(speed);
+
+  UnlockWorld();
 }
 
 Phys::World& WorldController::LockWorld() {

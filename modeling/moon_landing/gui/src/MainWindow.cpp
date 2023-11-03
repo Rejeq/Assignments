@@ -6,6 +6,7 @@
 
 #include <QAction>
 #include <QMessageBox>
+#include <QSpinBox>
 #include <QTextBrowser>
 #include <QTimer>
 #include <QToolBar>
@@ -78,8 +79,8 @@ MainWindow::MainWindow(QWidget* parent)
     gameOverMsg.exec();
   });
 
-  m_worldController.DisableAutoUpdate();
   m_worldController.Reset();
+  m_worldController.SetSpeed(1);
 }
 
 MainWindow::~MainWindow() {
@@ -153,6 +154,24 @@ ads::CDockWidget* MainWindow::InitToolBarView(SetupView* setup) {
       toolBar->addAction(QIcon(":Moon/Icons/Restart.svg"), "Перезапустить");
   connect(restart, &QAction::triggered, &m_worldController,
           &WorldController::Restart);
+
+  QFrame* line = new QFrame;
+  line->setFrameShape(QFrame::VLine);
+  line->setFrameShadow(QFrame::Sunken);
+  toolBar->addWidget(line);
+
+  auto* spinbox = new QSpinBox();
+  spinbox->setToolTip("Скорость");
+  spinbox->setMinimum(1);
+  spinbox->setMaximum(9999);
+
+  connect(spinbox, QOverload<int>::of(&QSpinBox::valueChanged),
+          &m_worldController,
+          [=](int val) { m_worldController.SetSpeed(val); });
+  connect(&m_worldController, &WorldController::SpeedChanged, spinbox,
+          &QSpinBox::setValue);
+
+  toolBar->addWidget(spinbox);
 
   auto* emptyRight = new QWidget();
   emptyRight->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

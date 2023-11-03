@@ -47,6 +47,9 @@ class WorldController : public QObject {
   void SetAutoUpdateIntervalSec(double sec);
   int GetAutoUpdateInterval() const { return m_timer.interval(); }
 
+  void SetSpeed(int speed);
+  int GetSpeed() const { return m_speed; }
+
   Phys::World& LockWorld();
   void UnlockWorld();
 
@@ -55,6 +58,7 @@ class WorldController : public QObject {
   void Reseted(Phys::World& world);
   void AutoUpdateChanged(bool enabled);
   void IntervalChanged(int msec);
+  void SpeedChanged(int speed);
 
  private:
   bool IsAutoUpdateActive() const {

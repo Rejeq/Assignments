@@ -50,10 +50,11 @@ void RocketController::ShiftFuellEmission(double delta) {
   Phys::World& world = m_worldController->LockWorld();
   Phys::Rocket& rocket = GetRocketInstance(world);
   Phys::TestRocket& testRocket = GetTestRocketInstance(world);
+  int speed = m_worldController->GetSpeed();
 
   double emission = rocket.GetFuelEmission();
-  rocket.SetFuelEmission(emission + delta);
-  testRocket.SetFuelEmission(emission + delta);
+  rocket.SetFuelEmission(emission + delta * speed);
+  testRocket.SetFuelEmission(emission + delta * speed);
 
   if (m_currData != nullptr)
     m_currData->Update(world.GetLifetime(), rocket);
@@ -62,6 +63,11 @@ void RocketController::ShiftFuellEmission(double delta) {
 }
 
 void RocketController::OnWorldUpdate(Phys::World& world) {
+  if (m_landed) {
+    LOG_TRACE("RocketController: Rocket already landed, so it is no updated");
+    return;
+  }
+
   Phys::Rocket& rocket = GetRocketInstance(world);
   Phys::TestRocket& testRocket = GetTestRocketInstance(world);
   const double lifetime = world.GetLifetime();
@@ -74,6 +80,7 @@ void RocketController::OnWorldUpdate(Phys::World& world) {
             testRocket.GetVelocity());
 
   if (height <= 0.0f) {
+    m_landed = true;
     m_worldController->DisableAutoUpdate();
 
     if (std::abs(rocket.GetVelocity()) > rocket.GetLandingSpeed())
@@ -103,6 +110,8 @@ void RocketController::OnWorldReset(Phys::World& world) {
   Phys::Rocket rocket = m_setup->GetRocket();
   double gravity = m_setup->GetGravity();
   double timestep = m_setup->GetTimeStep();
+
+  m_landed = false;
 
   if (m_plot != nullptr)
     m_plot->Clear();
