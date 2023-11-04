@@ -42,6 +42,26 @@ void RocketController::SetWorldController(WorldController* controller) {
           &RocketController::OnWorldReset);
 }
 
+CurrentDataView* RocketController::GetCurrentDataView() {
+  return m_currData.data();
+}
+
+PlotView* RocketController::GetPlotView() {
+  return m_plot.data();
+}
+
+SceneView* RocketController::GetSceneView() {
+  return m_scene.data();
+}
+
+SetupView* RocketController::GetSetupView() {
+  return m_setup.data();
+}
+
+WorldController* RocketController::GetWorldController() {
+  return m_worldController.data();
+}
+
 void RocketController::ShiftFuellEmission(double delta) {
   LOG_INFO("RocketController: Fuel emission chagned by delta: {}", delta);
 

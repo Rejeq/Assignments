@@ -2,6 +2,7 @@
 
 #include <QKeyEvent>
 #include <QObject>
+#include <QPointer>
 
 #include <Physics/Rocket.h>
 
@@ -22,11 +23,11 @@ class RocketController : public QObject {
   void SetSetupView(SetupView* setup);
   void SetWorldController(WorldController* controller);
 
-  CurrentDataView* GetCurrentDataView() { return m_currData; }
-  PlotView* GetPlotView() { return m_plot; }
-  SceneView* GetSceneView() { return m_scene; }
-  SetupView* GetSetupView() { return m_setup; }
-  WorldController* GetWorldController() { return m_worldController; }
+  CurrentDataView* GetCurrentDataView();
+  PlotView* GetPlotView();
+  SceneView* GetSceneView();
+  SetupView* GetSetupView();
+  WorldController* GetWorldController();
 
   void ShiftFuellEmission(double delta);
   double GetMaxFuelEmission() const;
@@ -45,11 +46,14 @@ class RocketController : public QObject {
   const Phys::TestRocket& GetTestRocketInstance(const Phys::World& world) const;
   Phys::TestRocket& GetTestRocketInstance(Phys::World& world);
 
-  CurrentDataView* m_currData = nullptr;
-  PlotView* m_plot = nullptr;
-  SceneView* m_scene = nullptr;
-  SetupView* m_setup = nullptr;
+  // TODO: Maybe do not use views here, use signal system instead
+  // cons - if the world updated every milliseconds - at least there will be
+  // 1000 emit calls per second
+  QPointer<CurrentDataView> m_currData;
+  QPointer<PlotView> m_plot;
+  QPointer<SceneView> m_scene;
+  QPointer<SetupView> m_setup;
 
-  WorldController* m_worldController = nullptr;
+  QPointer<WorldController> m_worldController;
   bool m_landed = false;
 };

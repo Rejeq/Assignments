@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QThread>
 #include <QTimer>
+#include <QPointer>
 
 #include <Physics/World.h>
 
@@ -70,7 +71,7 @@ class WorldController : public QObject {
 
   Phys::World m_world;
   QTimer m_timer;
-  PreciseTimerThread* m_preciseTimer;
+  QPointer<PreciseTimerThread> m_preciseTimer;
   QMutex m_mutex;
   int m_speed = 1;
 };

@@ -44,6 +44,11 @@ WorldController::WorldController() {
       Qt::UniqueConnection);
 }
 
+WorldController::~WorldController() {
+  SetDefaultTimer(false);
+  SetPreciseTimer(false);
+}
+
 void WorldController::Update(double dt) {
   LockWorld();
 
@@ -53,10 +58,6 @@ void WorldController::Update(double dt) {
   }
 
   UnlockWorld();
-}
-
-WorldController::~WorldController() {
-  m_timer.stop();
 }
 
 void WorldController::Step() {
@@ -85,7 +86,6 @@ void WorldController::SetAutoUpdate(bool enable) {
   if (enable) {
     LOG_DEBUG("WorldController: Enabling auto update with: {}ms interval",
               m_timer.interval());
-    this->disconnect(&m_timer);
   }
 
   int interval = m_timer.interval();
@@ -123,7 +123,6 @@ void WorldController::SetPreciseTimer(bool enable) {
     m_preciseTimer->SetInterval(m_timer.interval());
     m_preciseTimer->start();
   } else {
-    this->disconnect(m_preciseTimer);
     m_preciseTimer->quit();
     m_preciseTimer->wait();
   }
