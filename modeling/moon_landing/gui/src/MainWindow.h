@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow {
 
  protected:
   void closeEvent(QCloseEvent* event) override;
+  void keyReleaseEvent(QKeyEvent* event) override;
 
  private:
   ads::CDockWidget* InitSceneView();

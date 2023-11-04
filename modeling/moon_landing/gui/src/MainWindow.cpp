@@ -94,11 +94,19 @@ void MainWindow::closeEvent(QCloseEvent* event) {
   QMainWindow::closeEvent(event);
 }
 
+void MainWindow::keyReleaseEvent(QKeyEvent* event) {
+  double speed = 0.001 * m_rocketController.GetMaxFuelEmission();
+
+  switch (event->key()) {
+    case Qt::Key_Up: m_rocketController.ShiftFuellEmission(speed); break;
+    case Qt::Key_Down: m_rocketController.ShiftFuellEmission(-speed); break;
+  }
+}
+
 ads::CDockWidget* MainWindow::InitSceneView() {
   SceneView* scene = new SceneView();
   scene->Zoom(-15.0f);
   scene->UpdateRocketPos({0.0f, 0.0f, -1.0f});
-  installEventFilter(scene);
   m_rocketController.SetSceneView(scene);
 
   auto* sceneDock = new ads::CDockWidget("Сцена");

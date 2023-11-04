@@ -29,6 +29,7 @@ class RocketController : public QObject {
   WorldController* GetWorldController() { return m_worldController; }
 
   void ShiftFuellEmission(double delta);
+  double GetMaxFuelEmission() const;
 
  signals:
   void Destroyed();

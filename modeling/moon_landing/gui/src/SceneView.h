@@ -19,17 +19,12 @@ class SceneView : public QOpenGLWidget {
   void UpdateRocketPos(const Ren::Vertex::Pos& pos);
   void Zoom(float delta);
 
- signals:
-  void EmissionChanged(double delta);
-
  protected:
   void initializeGL() override;
   void paintGL() override;
   void resizeGL(int w, int h) override;
 
-  bool eventFilter(QObject *obj, QEvent *event) override;
   void wheelEvent(QWheelEvent* event) override;
-  void keyPressEvent(QKeyEvent *event) override;
 
  private:
   void InitDrawers();

@@ -160,25 +160,6 @@ void SceneView::DrawRocket() {
   // m_particles->Draw();
 }
 
-bool SceneView::eventFilter(QObject* obj, QEvent* event) {
-  Q_UNUSED(obj);
-
-  switch (event->type()) {
-    case QEvent::Wheel:
-      LOG_TRACE("SceneView: Intercepted a QWheelEvent");
-      wheelEvent((QWheelEvent*)event);
-      return true;
-    case QEvent::KeyPress:
-    case QEvent::KeyRelease:
-      LOG_TRACE("SceneView: Intercepted a QKeyEvent");
-      keyPressEvent((QKeyEvent*)event);
-      return true;
-    default: break;
-  }
-
-  return false;
-}
-
 void SceneView::wheelEvent(QWheelEvent* event) {
   float delta = 0.0f;
 
@@ -199,15 +180,6 @@ void SceneView::wheelEvent(QWheelEvent* event) {
 
   Zoom(delta);
   event->accept();
-}
-
-void SceneView::keyPressEvent(QKeyEvent* event) {
-  constexpr double sensetivity = 0.05;
-
-  switch (event->key()) {
-    case Qt::Key_Up: emit EmissionChanged(sensetivity); break;
-    case Qt::Key_Down: emit EmissionChanged(-sensetivity); break;
-  }
 }
 
 QString SceneView::LoadFileContent(const QString& path) const {

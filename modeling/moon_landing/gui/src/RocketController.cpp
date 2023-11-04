@@ -24,8 +24,6 @@ void RocketController::SetSceneView(SceneView* scene) {
     this->disconnect(m_scene);
 
   m_scene = scene;
-  connect(scene, &SceneView::EmissionChanged, this,
-          &RocketController::ShiftFuellEmission);
 }
 
 void RocketController::SetSetupView(SetupView* setup) {
@@ -60,6 +58,17 @@ void RocketController::ShiftFuellEmission(double delta) {
     m_currData->Update(world.GetLifetime(), rocket);
 
   m_worldController->UnlockWorld();
+}
+
+double RocketController::GetMaxFuelEmission() const {
+  const Phys::World& world = m_worldController->LockWorld();
+
+  const Phys::Rocket& rocket = GetRocketInstance(world);
+  double maxEmission = rocket.GetMaxFuelEmission();
+
+  m_worldController->UnlockWorld();
+
+  return maxEmission;
 }
 
 void RocketController::OnWorldUpdate(Phys::World& world) {
